@@ -1,5 +1,4 @@
 click
-uagents==0.16.2
 repopack
 setuptools
 virtualenv
@@ -9,7 +8,6 @@ uvicorn
 dotenv
 python-dotenv
 prompt_toolkit
-uagents-ai-engine
 requests
 black
-
+pydantic_ai

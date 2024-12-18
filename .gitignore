@@ -1,5 +1,4 @@
 .env
-<<<<<<< HEAD
 */__pycache__/*
 ./test/test-nextjs-project/.next
 ./test/test-nextjs-project/node_modules
@@ -7,3 +6,4 @@
 ./splat.egg-info
 .DS_Store
 __pycache__/*
+./zapenv
