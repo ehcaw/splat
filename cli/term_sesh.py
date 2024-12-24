@@ -20,7 +20,7 @@ class TermSesh:
         self.session_name = session_name
         self.terminal_process = None
         self.monitor = None
-        self.tmux_stack = []
+        self.tmux_stack = [""]
 
 
     def send_code_segment(self, code_data):
@@ -93,10 +93,10 @@ class TermSesh:
             result = subprocess.run(['tmux', 'capture-pane', '-t', self.session_name, '-p'], capture_output=True, text=True)
             if result.stdout:
                 cleaned_output = self.clean_tmux_output(result.stdout)
-                if len(self.tmux_stack) == 0 or cleaned_output != self.tmux_stack[-1]:
-                    self.tmux_stack.append(cleaned_output)
-                    print(self.tmux_stack[-1])
-                    return self.tmux_stack[-1]
+                self.tmux_stack.append(cleaned_output)
+                if len(self.tmux_stack[-2]) < len(cleaned_output):
+                    print(cleaned_output[len(self.tmux_stack[-2]):])
+                    return cleaned_output[len(self.tmux_stack[-2]):]
             return ""
         except Exception as e:
             print(f"Error reading tmux session: {e}")
