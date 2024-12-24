@@ -1,8 +1,9 @@
 import click
 import sys
 import cmd
-from zap import Zapper, TermSesh
-import threading
+from process_monitor import ProcessMonitor
+from zap import Zapper
+from term_sesh import TermSesh
 
 class ZapShell(cmd.Cmd):
     intro = 'Welcome to the Zap CLI. Type help or ? to list commands.\n'
@@ -31,26 +32,25 @@ class ZapShell(cmd.Cmd):
                 self.term_sesh.monitor.is_running = False
             if self.term_sesh.terminal_process:
                 self.term_sesh.terminal_process.terminate()
+            self.term_sesh.kill_tmux_session()
         click.echo('Goodbye!')
         return True
         return True
 
     def do_start(self, arg):
-        """Start up the terminal session"""
+        """Start up the terminal session using tmux"""
         self.zapper = Zapper()
         self.zapper.start()
-        self.term_sesh = TermSesh()
+        self.term_sesh = TermSesh(session_name='zapper_session')
         if self.term_sesh.open_new_terminal():
-            click.echo("Terminal session and monitoring started successfully")
-            self.zapper.running = True
-            self.zapper.subscriber_thread = threading.Thread(target=self.zapper.run_subscriber)
-            self.zapper.subscriber_thread.daemon = True
-            self.zapper.subscriber_thread.start()
+            self.term_sesh.monitor = ProcessMonitor(self.term_sesh)
+            self.term_sesh.monitor.start_monitoring()
+            click.echo("tmux session and monitoring started successfully")
+            self.term_sesh.publisher.send_json({'type': 'info', 'data': 'tmux session started'})
+            self.term_sesh.send_to_terminal("ls")
+            self.term_sesh.send_to_terminal("cat setup.py")
         else:
             click.echo("Failed to start terminal session")
-        print("ls and pwd")
-        self.term_sesh.send_to_terminal('ls')
-        self.term_sesh.send_to_terminal('pwd')
 
 
 

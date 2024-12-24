@@ -1,6 +1,9 @@
 set -e
 echo "🚀 Running some setup commands..."
 
+echo "Installing tmux!"
+brew install tmux
+
 echo "Creating virtual environment..."
 python3 -m venv zapenv
 
