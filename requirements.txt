@@ -11,3 +11,5 @@ prompt_toolkit
 requests
 black
 pydantic_ai
+pydantic
+zmq
