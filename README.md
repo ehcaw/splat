@@ -1,9 +1,11 @@
 # splat
 splat is a tool that combines your compile/runtime errors and grabs context from every crevice to deliver a highly educated debug response. This is perfect for whenever you have an error that needs to be quickly fixed, understood, and prevented for later in the future.
 created at calhacks 11.0
+```
  /\_/\
 ( o.o )
  > ^ <
+```
 ## Features
 - **AI-Optimized**: We use an extremely fast inference model [Groq](https://groq.com/) in order to produce an instant debug error, with still the same amount of accuracy.
 - **Simple to Use**: <ins>splat</ins> can be used out-of-the-box and globally in any project without any configuration.
